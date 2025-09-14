@@ -21,7 +21,6 @@ export class AppService {
     // privateEncrypt use RSA_PKCS1_PADDING as padding
     const encryptedKey = crypto.privateEncrypt(this.privateKey, aesKey);
 
-    console.log('iv encrypt', iv.toString('hex'));
     return {
       data1: encryptedKey.toString('hex'),
       data2: iv.toString('hex') + encryptedData,
@@ -35,22 +34,15 @@ export class AppService {
       Buffer.from(data1, 'hex'),
     );
 
-    console.log('data2', data2);
-
     const data2Buf = Buffer.from(data2, 'hex');
 
     const iv = data2Buf.subarray(0, 16);
     const encryptText = data2Buf.subarray(16);
-    console.log('data2Buf', data2Buf.toString('hex'));
 
     const decipher = crypto.createDecipheriv('aes-256-cbc', aesKey, iv);
 
-    console.log('here', encryptText.toString('hex'));
-
     let decrypted = decipher.update(encryptText.toString('hex'), 'hex', 'utf8');
     decrypted += decipher.final('utf8');
-
-    console.log('decrypted', decrypted);
 
     return decrypted;
   }

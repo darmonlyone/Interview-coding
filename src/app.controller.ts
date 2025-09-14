@@ -66,9 +66,7 @@ export class AppController {
           payload: this.appService.getDecryptData(body.data1, body.data2),
         },
       };
-    } catch (e: any) {
-      console.log(e);
-
+    } catch {
       return {
         successful: false,
         error_code: 'DECRYPTION_FAILED',
